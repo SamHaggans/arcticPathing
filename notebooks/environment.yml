@@ -9,3 +9,5 @@ dependencies:
   - numpy
   - matplotlib
   - rasterio
+  - jupyter
+  - jupyterlab
