@@ -6,7 +6,7 @@ def findPath(start, end):
     nodes = [start]
     checkNodes = [start]
 
-    while len(nodes) > 0:
+    while len(checkNodes) > 0:
         
         current = getBestNode(checkNodes)
         if (distance(current.getCoords(), end) ==0):
@@ -23,7 +23,7 @@ def findPath(start, end):
               node.setF(newG + distance(node.getCoords(), end))
               node.setParent(current)
               checkNodes.append(node)
-
+    print("No path found")
 def distance(location1, location2):
   a = location2[0] - location1[0]
   b = location2[1] - location1[1]
@@ -111,7 +111,7 @@ def getNeighbors(node, nodes):
   neighbors = []
 
   for s in spaces:
-      if s[0] >= 0 and s[1] >= 0 and s[0] < len(data) and s[1] < len(data[0]):
+      if s[0] >= 0 and s[1] >= 0 and s[0] < len(data[0]) and s[1] < len(data):
         neighbors.append(getNode(s[0], s[1], nodes, node))
   return neighbors
 
@@ -125,13 +125,13 @@ def getNode(x, y, nodes, parent):
 
     return Node(x, y, parent, getThickness([x, y]), float('inf'), float('inf'))
 
-def showPath(path, width, height):
-  for col in range(width):
-    for row in range(height):
+def showPath(path, maxDimension):
+  for col in range(maxDimension):
+    for row in range(maxDimension):
       if [row, col] in path:
-        print("A", end="")
+        print("+", end="")
       else:
-        print("O", end="")
+        print("=", end="")
     print("")
 
 if __name__ == '__main__':
@@ -141,9 +141,14 @@ if __name__ == '__main__':
   [1, 1, 5, 1, 1],
   [1, 1, 1, 5, 1],
   [1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1],
   ]
   start = [0,0]
-  end = [4, 4]
+  end = [4, 9]
 
   path = findPath(start, end)
-  showPath(path, 5, 5)
+  showPath(path, 10)
