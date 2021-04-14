@@ -75,7 +75,6 @@ def findPath(location, iterationCount, destination, path):
     path.append(minSpace)
     return path
   else:
-    surroundingSpaces = getSurroundingSpaces(location)
     potentialPaths = []
     for i in range(len(surroundingSpaces)):
       potentialPaths.append(findPath(surroundingSpaces[i], iterationCount - 1, destination, potentialPaths[i]))
