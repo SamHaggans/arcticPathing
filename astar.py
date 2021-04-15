@@ -135,6 +135,7 @@ def showPath(path, maxDimension):
     print("")
 
 if __name__ == '__main__':
+  """
   data = [
   [1, 5, 1, 1, 1],
   [1, 5, 1, 1, 1],
@@ -152,3 +153,17 @@ if __name__ == '__main__':
 
   path = findPath(start, end)
   showPath(path, 10)
+  """
+
+  data = [
+  [1, 9, 1, 1, 1],
+  [1, 3, 1, 1, 1],
+  [1, 9, 1, 9, 1],
+  [1, 1, 1, 2, 1],
+  [1, 1, 1, 9, 1],
+  ]
+  start = [0,0]
+  end = [4, 4]
+
+  path = findPath(start, end)
+  showPath(path, 5)
