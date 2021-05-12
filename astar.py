@@ -14,7 +14,7 @@ def findPath(start, end):
         
         current = getBestNode(checkNodes)
         if (distance(current.getCoords(), end) == 0):  
-          return getPath(current, startCoords)
+          return [getPath(current, startCoords), current.getG(), distance(startCoords, end)]
 
         checkNodes.remove(current)
 
@@ -40,16 +40,18 @@ def weight(node1, node2):
   return 2**(t1+t2)
 
 def getPath(node, start):
+  pathDistance = 0
   path = []
   currentNode = node
   
   while True:
     path.append(currentNode.getCoords())
+    pathDistance += distance(currentNode.getCoords(), currentNode.getParent().getCoords())
     currentNode = currentNode.getParent()
     if currentNode is None or currentNode.getCoords() == start:
       break
   
-  return path[::-1]#Return the reversed path
+  return [path[::-1], pathDistance]#Return the reversed path
 
 
 class Node:
@@ -154,16 +156,14 @@ def showPathPlot(path, startDim, maxDimension):
   nc_data[nc_data == -9999] = -20
   plt.xlim(startDim, maxDimension)
   plt.ylim(0, 500)
-  plt.imshow(np.flipud(nc_data))
+  plt.imshow(nc_data)
   plt.show()
 
 if __name__ == '__main__':
   import xarray as xr
   while True:
-    x1 = int(input("Enter x1: "))
-    y1 = int(input("Enter y1: "))
-    x2 = int(input("Enter x2: "))
-    y2 = int(input("Enter y2: "))
+    
+    
     dataset_path = 'iceData/RDEFT4_20200229.nc'
 
     nc_ds = Dataset(dataset_path)
@@ -173,8 +173,23 @@ if __name__ == '__main__':
     land_mask = np.fromfile('iceData/gsfc_25n.msk', dtype=np.byte).reshape((448, 304))
     nc_data[land_mask == 1] = None
     nc_data[nc_data == -9999] = 0
+    data = nc_data
 
-    data = np.flipud(nc_data)
+    showPathPlot([], 0, 500)
 
-    path = findPath([y1, x1], [y2, x2])
+    x1 = int(input("Enter x1: "))
+    y1 = int(input("Enter y1: "))
+    x2 = int(input("Enter x2: "))
+    y2 = int(input("Enter y2: "))
+
+    pathInfo = findPath([y1, x1], [y2, x2])
+    path = pathInfo[0][0]
+    pathLength = pathInfo[0][1]
+    pathCost = pathInfo[1]
+    netDistance = pathInfo[2]
+
+    print("Path length: " + str(pathLength))
+    print("Path cost: " + str(pathCost))
+    print("Straight line distance traveled: " + str(netDistance))
+
     showPathPlot(path, 0, 500)
