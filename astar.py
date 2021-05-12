@@ -1,6 +1,10 @@
 import math
+from matplotlib import pyplot as plt
+from netCDF4 import Dataset
+import numpy as np
 
 def findPath(start, end):
+    startCoords = start
     start = Node(start[0], start[1], None, getThickness(start), 0, distance(start, end))
     
     nodes = [start]
@@ -9,13 +13,12 @@ def findPath(start, end):
     while len(checkNodes) > 0:
         
         current = getBestNode(checkNodes)
-        if (distance(current.getCoords(), end) ==0):
-            return getPath(current)
+        if (distance(current.getCoords(), end) == 0):  
+          return getPath(current, startCoords)
 
         checkNodes.remove(current)
 
         neighbors = getNeighbors(current, nodes)
-
         for node in neighbors:
             newG = current.getG() + distance(current.getCoords(), node.getCoords()) * weight(current, node)
             if newG < node.getG():
@@ -34,16 +37,18 @@ def weight(node1, node2):
   c2 = node2.getCoords()
   t1 = getThickness(c1)
   t2 = getThickness(c2)
-  return (t1+t2)/2
+  return 2**(t1+t2)
 
-def getPath(node):
+def getPath(node, start):
   path = []
   currentNode = node
+  
   while True:
     path.append(currentNode.getCoords())
     currentNode = currentNode.getParent()
-    if currentNode == None:
+    if currentNode is None or currentNode.getCoords() == start:
       break
+  
   return path[::-1]#Return the reversed path
 
 
@@ -83,8 +88,7 @@ class Node:
 def getThickness(location):
   x = location[0]
   y = location[1]
-  return data[y][x]
-
+  return data[x][y]
 
 def getBestNode(nodes):
     minVal = nodes[0].getF()
@@ -94,7 +98,6 @@ def getBestNode(nodes):
             minNode = node
             minVal = node.getF()
     return minNode
-
 
 def getNeighbors(node, nodes):
   x = node.getCoords()[0]
@@ -112,7 +115,8 @@ def getNeighbors(node, nodes):
 
   for s in spaces:
       if s[0] >= 0 and s[1] >= 0 and s[0] < len(data[0]) and s[1] < len(data):
-        neighbors.append(getNode(s[0], s[1], nodes, node))
+        if getNode(s[0], s[1], nodes, node) is not None:
+          neighbors.append(getNode(s[0], s[1], nodes, node))
   return neighbors
 
 
@@ -121,49 +125,56 @@ def getNode(x, y, nodes, parent):
     for node in nodes:
         if node.getCoords()[0] == x and node.getCoords()[1] == y:
             return node
-    nodes.append(Node(x, y, parent, getThickness([x, y]), float('inf'), float('inf')))
 
-    return Node(x, y, parent, getThickness([x, y]), float('inf'), float('inf'))
+    if getThickness([x, y]) is not None:
+      nodes.append(Node(x, y, parent, getThickness([x, y]), float('inf'), float('inf')))
 
-def showPath(path, maxDimension):
-  for col in range(maxDimension):
-    for row in range(maxDimension):
+      return Node(x, y, parent, getThickness([x, y]), float('inf'), float('inf'))
+    else:
+      return None
+
+def showPath(path, startDim, maxDimension):
+  for col in range(startDim, maxDimension):
+    for row in range(startDim, maxDimension):
       if [row, col] in path:
         print("+", end="")
       else:
-        print("=", end="")
+        if data[row][col] < 0:
+          print("X", end="")
+        else:
+          print("=", end="")
     print("")
 
+def showPathPlot(path, startDim, maxDimension):
+  for col in range(startDim, maxDimension):
+    for row in range(startDim, maxDimension):
+      if [row, col] in path:
+        nc_data[row][col] = 20
+  nc_data[land_mask == 1] = -10
+  nc_data[nc_data == -9999] = -20
+  plt.xlim(startDim, maxDimension)
+  plt.ylim(0, 500)
+  plt.imshow(np.flipud(nc_data))
+  plt.show()
+
 if __name__ == '__main__':
-  """
-  data = [
-  [1, 5, 1, 1, 1],
-  [1, 5, 1, 1, 1],
-  [1, 1, 5, 1, 1],
-  [1, 1, 1, 5, 1],
-  [1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1],
-  ]
-  start = [0,0]
-  end = [4, 9]
+  import xarray as xr
+  while True:
+    x1 = int(input("Enter x1: "))
+    y1 = int(input("Enter y1: "))
+    x2 = int(input("Enter x2: "))
+    y2 = int(input("Enter y2: "))
+    dataset_path = 'iceData/RDEFT4_20200229.nc'
 
-  path = findPath(start, end)
-  showPath(path, 10)
-  """
+    nc_ds = Dataset(dataset_path)
+    nc_var = nc_ds['sea_ice_thickness']
+    nc_data = nc_var[:]
+    
+    land_mask = np.fromfile('iceData/gsfc_25n.msk', dtype=np.byte).reshape((448, 304))
+    nc_data[land_mask == 1] = None
+    nc_data[nc_data == -9999] = 0
 
-  data = [
-  [1, 9, 1, 1, 1],
-  [1, 3, 1, 1, 1],
-  [1, 9, 1, 9, 1],
-  [1, 1, 1, 2, 1],
-  [1, 1, 1, 9, 1],
-  ]
-  start = [0,0]
-  end = [4, 4]
+    data = np.flipud(nc_data)
 
-  path = findPath(start, end)
-  showPath(path, 5)
+    path = findPath([y1, x1], [y2, x2])
+    showPathPlot(path, 0, 500)
