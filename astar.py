@@ -1,7 +1,9 @@
 import math
+
 from matplotlib import pyplot as plt
 from netCDF4 import Dataset
 import numpy as np
+
 
 def findPath(start, end):
     startCoords = start
@@ -156,7 +158,10 @@ def showPathPlot(path, startDim, maxDimension):
   nc_data[nc_data == -9999] = -20
   plt.xlim(startDim, maxDimension)
   plt.ylim(0, 500)
-  plt.imshow(nc_data)
+  nc_data_flipped = np.flip(nc_data.copy(), axis=0)
+  # rasterio https://rasterio.readthedocs.io/en/latest/api/rasterio.transform.html#rasterio.transform.rowcol
+  # xarray potentially too
+  plt.imshow(nc_data_flipped)
   plt.show()
 
 if __name__ == '__main__':
@@ -167,12 +172,16 @@ if __name__ == '__main__':
     dataset_path = 'iceData/RDEFT4_20200229.nc'
 
     nc_ds = Dataset(dataset_path)
+    print(nc_ds)
+    print(nc_ds['lat'][250][150])
+    print(nc_ds['lon'][250][150])
     nc_var = nc_ds['sea_ice_thickness']
     nc_data = nc_var[:]
     
     land_mask = np.fromfile('iceData/gsfc_25n.msk', dtype=np.byte).reshape((448, 304))
     nc_data[land_mask == 1] = None
     nc_data[nc_data == -9999] = 0
+    
     data = nc_data
 
     showPathPlot([], 0, 500)
