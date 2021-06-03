@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE GranuleMetaDataFile SYSTEM "http://ecsinfo.gsfc.nasa.gov/ECSInfo/ecsmetadata/dtds/DPL/ECS/ScienceGranuleMetadata.dtd">
+<GranuleMetaDataFile>
+    <DTDVersion>1.0</DTDVersion>
+    <DataCenterId>NSIDC</DataCenterId>
+    <GranuleURMetaData>
+        <GranuleUR>SC:RDEFT4.001:177193036</GranuleUR>
+        <DbID>177193036</DbID>
+        <InsertTime>2020-04-09 05:32:51.311</InsertTime>
+        <LastUpdate>2020-04-09 05:32:51.311</LastUpdate>
+        <CollectionMetaData>
+            <ShortName>RDEFT4</ShortName>
+            <VersionID>001</VersionID>
+        </CollectionMetaData>
+        <DataFiles>
+            <DataFileContainer>
+                <DistributedFileName>RDEFT4_20200229.nc</DistributedFileName>
+                <FileSize>4361416</FileSize>
+                <ChecksumType>MD5</ChecksumType>
+                <Checksum>593644cd60fed6a80ecac0b44f872bf9</Checksum>
+                <ChecksumOrigin>DPLIngst</ChecksumOrigin>
+            </DataFileContainer>
+        </DataFiles>
+        <ECSDataGranule>
+            <SizeMBECSDataGranule>4.15937</SizeMBECSDataGranule>
+            <LocalGranuleID>RDEFT4_20200229.nc</LocalGranuleID>
+            <ProductionDateTime>2020-04-09 04:17:55.000</ProductionDateTime>
+            <LocalVersionID>001</LocalVersionID>
+        </ECSDataGranule>
+        <RangeDateTime>
+            <RangeEndingTime>23:59:59.900000</RangeEndingTime>
+            <RangeEndingDate>2020-02-29</RangeEndingDate>
+            <RangeBeginningTime>00:00:00.000000</RangeBeginningTime>
+            <RangeBeginningDate>2020-01-31</RangeBeginningDate>
+        </RangeDateTime>
+        <SpatialDomainContainer>
+            <HorizontalSpatialDomainContainer>
+                <BoundingRectangle>
+                    <WestBoundingCoordinate>-180.0</WestBoundingCoordinate>
+                    <NorthBoundingCoordinate>90.0</NorthBoundingCoordinate>
+                    <EastBoundingCoordinate>180.0</EastBoundingCoordinate>
+                    <SouthBoundingCoordinate>45.0</SouthBoundingCoordinate>
+                </BoundingRectangle>
+            </HorizontalSpatialDomainContainer>
+        </SpatialDomainContainer>
+        <Platform>
+            <PlatformShortName>CRYOSAT-2</PlatformShortName>
+            <Instrument>
+                <InstrumentShortName>SIRAL</InstrumentShortName>
+                <Sensor>
+                    <SensorShortName>SIRAL</SensorShortName>
+                </Sensor>
+            </Instrument>
+        </Platform>
+        <Campaign>
+            <CampaignShortName>MULTI_NASA</CampaignShortName>
+        </Campaign>
+        <PSAs>
+            <PSA>
+                <PSAName>SIPSMetGenVersion</PSAName>
+                <PSAValue>2.5</PSAValue>
+            </PSA>
+        </PSAs>
+        <BrowseProduct>
+            <BrowseGranuleId>UR:10:DsShESDTUR:UR:15:DsShSciServerUR:15:[NSIDC:DSSDSRV]:23:BR:Browse.001:177193038</BrowseGranuleId>
+        </BrowseProduct>
+    </GranuleURMetaData>
+</GranuleMetaDataFile>
+
+
