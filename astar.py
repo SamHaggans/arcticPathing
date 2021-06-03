@@ -169,15 +169,13 @@ def show_path_plot(path, start_dim, max_dimension):
     plt.xlim(start_dim, max_dimension)
     plt.ylim(0, 500)
     nc_data_flipped = np.flip(nc_data.copy(), axis=0)
-    # rasterio https://rasterio.readthedocs.io/en/latest/api/rasterio.transform.html#rasterio.transform.rowcol
-    # xarray potentially too
     plt.imshow(nc_data_flipped)
     plt.show()
 
 
 if __name__ == '__main__':
     while True:
-        dataset_path = 'iceData/RDEFT4_20200229.nc'
+        dataset_path = 'ice_data/RDEFT4_20200229.nc'
 
         nc_ds = Dataset(dataset_path)
         print(nc_ds)
@@ -186,7 +184,7 @@ if __name__ == '__main__':
         nc_var = nc_ds['sea_ice_thickness']
         nc_data = nc_var[:]
 
-        land_mask = np.fromfile('iceData/gsfc_25n.msk', dtype=np.byte).reshape((448, 304))
+        land_mask = np.fromfile('ice_data/gsfc_25n.msk', dtype=np.byte).reshape((448, 304))
         nc_data[land_mask == 1] = None
         nc_data[nc_data == -9999] = 0
 
