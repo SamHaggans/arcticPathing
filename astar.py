@@ -1,5 +1,6 @@
 import math
 
+from itertools import product
 from matplotlib import pyplot as plt
 from netCDF4 import Dataset
 import numpy as np
@@ -148,23 +149,21 @@ def get_node(x, y, nodes, parent):
 
 
 def showPath(path, start_dim, max_dimension):
-    for col in range(start_dim, max_dimension):
-        for row in range(start_dim, max_dimension):
-            if [row, col] in path:
-                print("+", end="")
+    for col, row in product(range(start_dim, max_dimension), range(start_dim, max_dimension)):
+        if [row, col] in path:
+            print("+", end="")
+        else:
+            if data[row][col] < 0:
+                print("X", end="")
             else:
-                if data[row][col] < 0:
-                    print("X", end="")
-                else:
-                    print("=", end="")
+                print("=", end="")
         print("")
 
 
 def show_path_plot(path, start_dim, max_dimension):
-    for col in range(start_dim, max_dimension):
-        for row in range(start_dim, max_dimension):
-            if [row, col] in path:
-                nc_data[row][col] = 20
+    for col, row in product(range(start_dim, max_dimension), range(start_dim, max_dimension)):
+        if [row, col] in path:
+            nc_data[row][col] = 20
     nc_data[land_mask == 1] = -10
     nc_data[nc_data == -9999] = -20
     plt.xlim(start_dim, max_dimension)
