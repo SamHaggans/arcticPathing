@@ -18,7 +18,11 @@ def find_path(start, end):
     while len(check_nodes) > 0:
         current = get_best_node(check_nodes)
         if (distance(current.get_coords(), end) == 0):
-            return {'path': get_path(current, start), 'difficulty': current.get_g(), 'distance': init_distance}
+            return {
+                'path': get_path(current, start),
+                'difficulty': current.get_g(),
+                'distance': init_distance
+            }
 
         check_nodes.remove(current)
 
@@ -66,7 +70,12 @@ def get_path(node, start):
         if current_node is None or current_node.get_coords() == start:
             break
 
-    return {"path": path[::-1], "path_coords": path_coords[::-1], "distance": path_distance}  # Return the reversed path
+    # Return the path, the path lat/lon coordinates, and the distance        
+    return {
+        'path': path[::-1],
+        'path_coords': path_coords[::-1],
+        'distance': path_distance,
+    }  
 
 
 class Node:
