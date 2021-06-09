@@ -227,5 +227,6 @@ if __name__ == '__main__':
         print("Path length: " + str(path_length))
         print("Path cost: " + str(path_cost))
         print("Straight line distance traveled: " + str(net_distance))
+        print(path_coords)
 
         show_path_plot(path, 0, 500)
