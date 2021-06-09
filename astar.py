@@ -24,7 +24,7 @@ def find_path(start, end):
 
         neighbors = get_neighbors(current, nodes)
         for node in neighbors:
-            new_g = current.get_g() + distance(current.get_coords(), node.get_coords()) * weight(current, node)
+            new_g = current.get_g() + distance_between_nodes(current, node) * weight(current, node)
             if new_g < node.get_g():
                 node.set_g(new_g)
                 node.set_f(new_g + distance(node.get_coords(), end))
@@ -38,6 +38,8 @@ def distance(location1, location2):
     b = location2[1] - location1[1]
     return math.sqrt(a ** 2 + b ** 2)
 
+def distance_between_nodes(node1, node2):
+    return distance(node1.get_coords(), node2.get_coords())
 
 def weight(node1, node2):
     c1 = node1.get_coords()
@@ -55,7 +57,7 @@ def get_path(node, start):
 
     while True:
         path.append(current_node.get_coords())
-        path_distance += distance(current_node.get_coords(), current_node.get_parent().get_coords())
+        path_distance += distance_between_nodes(current_node, current_node.get_parent())
         current_node = current_node.get_parent()
         if current_node is None or current_node.get_coords() == start:
             break
