@@ -38,8 +38,10 @@ def distance(location1, location2):
     b = location2[1] - location1[1]
     return math.sqrt(a ** 2 + b ** 2)
 
+
 def distance_between_nodes(node1, node2):
     return distance(node1.get_coords(), node2.get_coords())
+
 
 def weight(node1, node2):
     c1 = node1.get_coords()
@@ -78,7 +80,7 @@ class Node:
 
     def get_coords(self):
         return [self.x, self.y]
-    
+
     def get_lat_lon(self):
         lat = nc_coords['lat'][self.x][self.y]
         lon = nc_coords['lon'][self.x][self.y]
@@ -110,6 +112,7 @@ def get_thickness(location):
     x = location[0]
     y = location[1]
     return data[x][y]
+
 
 def get_best_node(nodes):
     min_val = nodes[0].get_f()
