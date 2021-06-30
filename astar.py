@@ -167,6 +167,15 @@ def get_node(x, y, nodes, parent):
     else:
         return None
 
+def get_nearest_coord(lat, lon, data):
+    distances = np.ones_like(data['lat'])
+    for col, row in product(range(len(data['lon'][0])), range(len(data['lat']))):
+        distances[row][col] = distance([data['lat'][row][col], data['lon'][row][col]], [lat, lon])
+
+    min_distance = np.min(distances)
+
+    return np.argwhere(distances == min_distance)
+
 
 def showPath(path, start_dim, max_dimension):
     for col, row in product(range(start_dim, max_dimension), range(start_dim, max_dimension)):
@@ -210,14 +219,21 @@ if __name__ == '__main__':
 
         data = nc_data
 
-        show_path_plot([], 0, 500)
+        lat1 = int(input("Enter starting lat: "))
+        lon1 = int(input("Enter starting lon: "))
+        lat2 = int(input("Enter ending lat: "))
+        lon2 = int(input("Enter ending lon: "))
 
-        x1 = int(input("Enter x1: "))
-        y1 = int(input("Enter y1: "))
-        x2 = int(input("Enter x2: "))
-        y2 = int(input("Enter y2: "))
+        start = get_nearest_coord(lat1, lon1, nc_coords)[0]
 
-        path_info = find_path([y1, x1], [y2, x2])
+        end = get_nearest_coord(lat2, lon2, nc_coords)[0]
+
+        start_coords = [nc_coords['lat'][start[0]][start[1]], nc_coords['lon'][start[0]][start[1]]]
+        end_coords = [nc_coords['lat'][end[0]][end[1]], nc_coords['lon'][end[0]][end[1]]]
+
+        print(f'Finding path between {start_coords} and {end_coords}')
+
+        path_info = find_path(start, end)
         path = path_info['path']['path']
         path_coords = path_info['path']['path_coords']
         path_length = path_info['path']['distance']
