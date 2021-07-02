@@ -4,6 +4,7 @@ from itertools import product
 from matplotlib import pyplot as plt
 from netCDF4 import Dataset
 import numpy as np
+from functools import partial
 
 
 def find_path(start, end):
@@ -168,9 +169,12 @@ def get_node(x, y, nodes, parent):
         return None
 
 def get_nearest_coord(lat, lon, data):
-    distances = np.ones_like(data['lat'])
-    for col, row in product(range(len(data['lon'][0])), range(len(data['lat']))):
-        distances[row][col] = distance([data['lat'][row][col], data['lon'][row][col]], [lat, lon])
+
+    lat_lon = np.ma.stack([data['lat'], data['lon']])
+
+    distance_to_requested_coords = partial(distance, [lat, lon])
+
+    distances = np.apply_along_axis(distance_to_requested_coords, 0, lat_lon)
 
     min_distance = np.min(distances)
 
@@ -210,6 +214,7 @@ if __name__ == '__main__':
         nc_var = nc_ds['sea_ice_thickness']
         lat_flip = np.flip(nc_ds['lat'][:].copy(), axis=0)
         lon_flip = np.flip(nc_ds['lon'][:].copy(), axis=0)
+
         nc_coords = {'lat': lat_flip, 'lon': lon_flip}
         nc_data = nc_var[:]
 
