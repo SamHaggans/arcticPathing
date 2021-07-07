@@ -43,6 +43,9 @@ def distance(location1, location2):
     b = location2[1] - location1[1]
     return math.sqrt(a ** 2 + b ** 2)
 
+def distance_lat_lon(lat, lon, requested_lat, requested_lon):
+    return distance([lat, lon], [requested_lat, requested_lon])
+
 
 def distance_between_nodes(node1, node2):
     return distance(node1.get_coords(), node2.get_coords())
@@ -168,13 +171,10 @@ def get_node(x, y, nodes, parent):
     else:
         return None
 
-def get_nearest_coord(lat, lon, data):
+def nearest_coord_to_lat_lon(requested_lat, requested_lon, data_coords):
+    vectorized_distance = np.vectorize(distance_lat_lon)
 
-    lat_lon = np.ma.stack([data['lat'], data['lon']])
-
-    distance_to_requested_coords = partial(distance, [lat, lon])
-
-    distances = np.apply_along_axis(distance_to_requested_coords, 0, lat_lon)
+    distances = vectorized_distance(data_coords['lat'], data_coords['lon'], requested_lat, requested_lon)
 
     min_distance = np.min(distances)
 
@@ -229,9 +229,9 @@ if __name__ == '__main__':
         lat2 = int(input("Enter ending lat: "))
         lon2 = int(input("Enter ending lon: "))
 
-        start = get_nearest_coord(lat1, lon1, nc_coords)[0]
+        start = nearest_coord_to_lat_lon(lat1, lon1, nc_coords)[0]
 
-        end = get_nearest_coord(lat2, lon2, nc_coords)[0]
+        end = nearest_coord_to_lat_lon(lat2, lon2, nc_coords)[0]
 
         start_coords = [nc_coords['lat'][start[0]][start[1]], nc_coords['lon'][start[0]][start[1]]]
         end_coords = [nc_coords['lat'][end[0]][end[1]], nc_coords['lon'][end[0]][end[1]]]
