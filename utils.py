@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 import data
-from Node import Node
+from node import Node
 
 
 def distance(location1, location2):
