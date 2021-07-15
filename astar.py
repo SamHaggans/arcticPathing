@@ -4,6 +4,7 @@ from itertools import product
 from matplotlib import pyplot as plt
 from netCDF4 import Dataset
 import numpy as np
+from functools import partial
 
 
 def find_path(start, end):
@@ -41,6 +42,9 @@ def distance(location1, location2):
     a = location2[0] - location1[0]
     b = location2[1] - location1[1]
     return math.sqrt(a ** 2 + b ** 2)
+
+def distance_lat_lon(lat, lon, requested_lat, requested_lon):
+    return distance([lat, lon], [requested_lat, requested_lon])
 
 
 def distance_between_nodes(node1, node2):
@@ -167,6 +171,15 @@ def get_node(x, y, nodes, parent):
     else:
         return None
 
+def nearest_coord_to_lat_lon(requested_lat, requested_lon, data_coords):
+    vectorized_distance = np.vectorize(distance_lat_lon)
+
+    distances = vectorized_distance(data_coords['lat'], data_coords['lon'], requested_lat, requested_lon)
+
+    min_distance = np.min(distances)
+
+    return np.argwhere(distances == min_distance)
+
 
 def showPath(path, start_dim, max_dimension):
     for col, row in product(range(start_dim, max_dimension), range(start_dim, max_dimension)):
@@ -201,6 +214,7 @@ if __name__ == '__main__':
         nc_var = nc_ds['sea_ice_thickness']
         lat_flip = np.flip(nc_ds['lat'][:].copy(), axis=0)
         lon_flip = np.flip(nc_ds['lon'][:].copy(), axis=0)
+
         nc_coords = {'lat': lat_flip, 'lon': lon_flip}
         nc_data = nc_var[:]
 
@@ -210,14 +224,21 @@ if __name__ == '__main__':
 
         data = nc_data
 
-        show_path_plot([], 0, 500)
+        lat1 = int(input("Enter starting lat: "))
+        lon1 = int(input("Enter starting lon: "))
+        lat2 = int(input("Enter ending lat: "))
+        lon2 = int(input("Enter ending lon: "))
 
-        x1 = int(input("Enter x1: "))
-        y1 = int(input("Enter y1: "))
-        x2 = int(input("Enter x2: "))
-        y2 = int(input("Enter y2: "))
+        start = nearest_coord_to_lat_lon(lat1, lon1, nc_coords)[0]
 
-        path_info = find_path([y1, x1], [y2, x2])
+        end = nearest_coord_to_lat_lon(lat2, lon2, nc_coords)[0]
+
+        start_coords = [nc_coords['lat'][start[0]][start[1]], nc_coords['lon'][start[0]][start[1]]]
+        end_coords = [nc_coords['lat'][end[0]][end[1]], nc_coords['lon'][end[0]][end[1]]]
+
+        print(f'Finding path between {start_coords} and {end_coords}')
+
+        path_info = find_path(start, end)
         path = path_info['path']['path']
         path_coords = path_info['path']['path_coords']
         path_length = path_info['path']['distance']
