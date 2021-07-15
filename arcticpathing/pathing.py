@@ -1,7 +1,6 @@
-import utils
-import data
-from node import Node
-import node as nd
+from arcticpathing import utils, data
+from arcticpathing import node as nd
+from arcticpathing.node import Node
 
 
 def find_path(start, end):

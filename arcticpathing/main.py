@@ -1,7 +1,4 @@
-import utils
-import data
-import pathing
-import display
+from arcticpathing import utils, data, pathing, display
 
 if __name__ == '__main__':
     data.initialize()
