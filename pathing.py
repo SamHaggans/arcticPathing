@@ -16,7 +16,7 @@ def find_path(start, end):
         current = utils.get_best_node(check_nodes)
         if (utils.distance(current.get_coords(), end) == 0):
             return {
-                'path': get_path(current, start),
+                'path': generate_path_coords(current, start),
                 'difficulty': current.get_g(),
                 'distance': init_distance
             }
@@ -35,7 +35,7 @@ def find_path(start, end):
     print("No path found")
 
 
-def get_path(node, start):
+def generate_path_coords(node, start):
     path_distance = 0
     path = []
     path_coords = []
