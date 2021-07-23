@@ -1,7 +1,7 @@
 from arcticpathing import utils, data, pathing, display
 
 if __name__ == '__main__':
-    data.initialize()
+    data.load_dataset('ice_data/RDEFT4_20200229.nc')
 
     while True:
         lat1 = int(input("Enter starting lat: "))
