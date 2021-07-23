@@ -2,7 +2,7 @@ from itertools import product
 from matplotlib import pyplot as plt
 import numpy as np
 
-from arcticpathing import data
+import data
 
 
 def show_path_plot(path, start_dim, max_dimension):

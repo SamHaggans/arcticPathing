@@ -2,7 +2,7 @@ import math
 
 import numpy as np
 
-from arcticpathing import data
+import data
 
 
 def distance(location1, location2):
