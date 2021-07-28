@@ -12,9 +12,9 @@ def save_path_plot(path, start_dim, max_dimension):
 
     for col, row in product(range(start_dim, max_dimension), range(start_dim, max_dimension)):
         if [row, col] in path:
-            ice_data[row][col] = 20
-    ice_data[land_mask == 1] = -10
-    ice_data[ice_data == -9999] = -20
+            ice_data[row][col] = 6
+    ice_data[land_mask == 1] = -3
+    ice_data[ice_data == -9999] = -6
     plt.xlim(start_dim, max_dimension)
     plt.ylim(0, 500)
     filename = "%x.png" % getrandbits(64)
