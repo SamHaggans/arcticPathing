@@ -32,7 +32,7 @@ def find_path(start, end):
                 node.set_f(new_g + utils.distance(node.get_coords(), end))
                 node.set_parent(current)
                 check_nodes.append(node)
-    print("No path found")
+    return False
 
 
 def generate_path_info(node, start):

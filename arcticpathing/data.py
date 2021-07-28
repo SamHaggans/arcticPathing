@@ -7,16 +7,13 @@ def load_dataset(dataset_path):  # Must be run before any other data methods
 
     nc_ds = Dataset(dataset_path)
     nc_var = nc_ds['sea_ice_thickness']
-    lat_flip = np.flip(nc_ds['lat'][:].copy(), axis=0)
-    lon_flip = np.flip(nc_ds['lon'][:].copy(), axis=0)
 
-    nc_coords = {'lat': lat_flip, 'lon': lon_flip}
+    nc_coords = {'lat': nc_ds['lat'][:], 'lon': nc_ds['lon'][:]}
     nc_data = nc_var[:]
 
     land_mask = np.fromfile('ice_data/gsfc_25n.msk', dtype=np.byte).reshape((448, 304))
     nc_data[land_mask == 1] = None
     nc_data[nc_data == -9999] = 0
-
     data = nc_data
 
 
