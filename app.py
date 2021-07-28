@@ -39,7 +39,7 @@ def create_app(test_config=None):
             lat2 = float(information['lat_end'])
             lon2 = float(information['lon_end'])
             path = main.get_path(lat1, lon1, lat2, lon2)
-            plot_file = display.save_path_plot(path['path']['path'], 0, 500)
+            plot_file = display.save_path_plot(path['path'], 0, 500)
             return render_template("path.html", path_info=path, plot=f'/plots/{plot_file}')
 
     @app.route('/plots/<path:filename>', methods=['GET'])

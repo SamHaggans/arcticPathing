@@ -6,15 +6,16 @@
   </head>
   <body>
       <div class = "content left">
-      Path distance: {{ path_info['distance'] }} <br>
-      Path difficulty: {{ path_info['difficulty'] }}<br>
+      Path distance: {{ path_info['path_distance'] }} <br>
+      Straight distance: {{ path_info['straight_distance'] }} <br>
+      Path difficulty: {{ path_info['path_difficulty'] }}<br>
       Path coordinates:<br>
       <table>
         <tr>
             <th>Latitude</th>
             <th>Longitude</th>
         </tr>
-        {% for node in path_info['path']['path_coords'] %}
+        {% for node in path_info['path_coords'] %}
         <tr>
             <td>{{ node[0] }}</td>
             <td>{{ node[1] }}</td>

@@ -36,7 +36,7 @@ def show_path_info(path_info):
 
 def get_path(lat1, lon1, lat2, lon2):
     data.load_dataset('ice_data/RDEFT4_20200229.nc')
-    
+
     start, end, start_coords, end_coords = get_input_coords(lat1, lon1, lat2, lon2)
     path_info = pathing.find_path(start, end)
     return path_info
@@ -51,7 +51,7 @@ def pathing_loop():
 
     show_path_info(path_info)
 
-    path = path_info['path']['path']
+    path = path_info['path']
 
     display.show_path_plot(path, 0, 500)
 

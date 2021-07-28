@@ -15,11 +15,11 @@ def find_path(start, end):
     while len(check_nodes) > 0:
         current = nd.get_best_node(check_nodes)
         if (utils.distance(current.get_coords(), end) == 0):
-            return {
-                'path': generate_path_coords(current, start),
-                'difficulty': current.get_g(),
-                'distance': init_distance
-            }
+            path_info = generate_path_info(current, start)
+            path_info['path_difficulty'] = current.get_g()
+            path_info['straight_distance'] = init_distance
+
+            return path_info
 
         check_nodes.remove(current)
 
@@ -35,7 +35,7 @@ def find_path(start, end):
     print("No path found")
 
 
-def generate_path_coords(node, start):
+def generate_path_info(node, start):
     path_distance = 0
     path = []
     path_coords = []
@@ -54,7 +54,7 @@ def generate_path_coords(node, start):
     return {
         'path': path[::-1],
         'path_coords': path_coords[::-1],
-        'distance': path_distance,
+        'path_distance': path_distance,
     }
 
 
