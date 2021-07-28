@@ -1,8 +1,4 @@
-#  from arcticpathing import utils, data, pathing, display
-import utils
-import data
-import pathing
-import display
+from arcticpathing import utils, data, pathing, display
 
 
 def get_inputs():
@@ -11,6 +7,10 @@ def get_inputs():
     lat2 = int(input("Enter ending lat: "))
     lon2 = int(input("Enter ending lon: "))
 
+    return get_input_coords(lat1, lon1, lat2, lon2)
+
+
+def get_input_coords(lat1, lon1, lat2, lon2):
     coords = data.get_coords()
 
     start = utils.nearest_coord_to_lat_lon(lat1, lon1)[0]
@@ -32,6 +32,14 @@ def show_path_info(path_info):
     print("Path cost: " + str(path_cost))
     print("Straight line distance traveled: " + str(net_distance))
     print(path_coords)
+
+
+def get_path(lat1, lon1, lat2, lon2):
+    data.load_dataset('ice_data/RDEFT4_20200229.nc')
+    
+    start, end, start_coords, end_coords = get_input_coords(lat1, lon1, lat2, lon2)
+    path_info = pathing.find_path(start, end)
+    return path_info
 
 
 def pathing_loop():

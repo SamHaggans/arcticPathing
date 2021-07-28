@@ -1,4 +1,4 @@
-import data
+from arcticpathing import data
 
 
 class Node:

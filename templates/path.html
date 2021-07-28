@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Arctic Pathing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+      <div class = "content left">
+      Path distance: {{ path_info['distance'] }} <br>
+      Path difficulty: {{ path_info['difficulty'] }}<br>
+      Path coordinates:<br>
+      <table>
+        <tr>
+            <th>Latitude</th>
+            <th>Longitude</th>
+        </tr>
+        {% for node in path_info['path']['path_coords'] %}
+        <tr>
+            <td>{{ node[0] }}</td>
+            <td>{{ node[1] }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+        </div>
+      <div class = "content"><img src = {{ plot }} ></div>
+      
+  </body>
+</html>
