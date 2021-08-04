@@ -64,3 +64,16 @@ def weight(node1, node2):
     t1 = data.get_thickness(c1)
     t2 = data.get_thickness(c2)
     return 2 ** (t1 + t2)
+
+
+def parse_string(path_string):
+    path = []
+    split_1d = path_string.split("], ")
+    for coord in split_1d:
+        coord = coord.replace("[", "").replace("]", "")
+        coord_array = coord.split(", ")
+        coord_int_array = []
+        for dim in coord_array:
+            coord_int_array.append(int(dim))
+        path.append(coord_int_array)
+    return path

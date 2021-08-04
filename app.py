@@ -1,8 +1,9 @@
 import os
+import io
 
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, Response
 
-from arcticpathing import main, display
+from arcticpathing import main, display, pathing
 
 
 def create_app(test_config=None):
@@ -40,12 +41,16 @@ def create_app(test_config=None):
             lon2 = float(information['lon_end'])
             path = main.get_path(lat1, lon1, lat2, lon2)
             if path:
-                plot_file = display.save_path_plot(path['path'], 0, 500)
-                return render_template("path.html", path_info=path, plot=f'/plots/{plot_file}')
+                return render_template("path.html", path_info=path)
             else:
                 return "No path found"
 
-    @app.route('/plots/<path:filename>', methods=['GET'])
-    def plot_route(filename):
-        return send_file(f'plots/{filename}')
+    @app.route('/plot', methods=['GET'])
+    def plot_route():
+        path_string = request.args.get('path')
+        path = pathing.parse_string(path_string)
+        output = io.BytesIO()
+        plot = display.get_path_plot(path)
+        plot.savefig(output)
+        return Response(output.getvalue(), mimetype='image/png')
     return app

@@ -1,22 +1,23 @@
 from itertools import product
-from random import getrandbits
 from matplotlib import pyplot as plt
 import numpy as np
 
 from arcticpathing import data
 
 
-def save_path_plot(path, start_dim, max_dimension):
+def get_path_plot(path):
     ice_data = data.get_data()
     land_mask = np.fromfile('ice_data/gsfc_25n.msk', dtype=np.byte).reshape((448, 304))
-
-    for col, row in product(range(start_dim, max_dimension), range(start_dim, max_dimension)):
+    for col, row in product(range(0, 304), range(0, 448)):
         if [row, col] in path:
             ice_data[row][col] = 6
     ice_data[land_mask == 1] = -3
     ice_data[ice_data == -9999] = -6
-    plt.xlim(start_dim, max_dimension)
-    plt.ylim(0, 500)
-    filename = "%x.png" % getrandbits(64)
-    plt.imsave(f'plots/{filename}', ice_data)
-    return filename
+    ice_data = np.flip(ice_data.copy(), axis=0)
+    fig, ax = plt.subplots()
+    plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+    ax.axis('off')
+    plt.xlim(0, 304)
+    plt.ylim(0, 448)
+    plt.imshow(ice_data)
+    return plt
