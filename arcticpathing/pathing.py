@@ -66,7 +66,7 @@ def weight(node1, node2):
     return 2 ** (t1 + t2)
 
 
-def parse_string(path_string):
+def parse_string(path_string, use_int=False):
     path = []
     split_1d = path_string.split("], ")
     for coord in split_1d:
@@ -74,6 +74,9 @@ def parse_string(path_string):
         coord_array = coord.split(", ")
         coord_int_array = []
         for dim in coord_array:
-            coord_int_array.append(int(dim))
+            if use_int:
+                coord_int_array.append(int(dim))
+            else:
+                coord_int_array.append(float(dim))
         path.append(coord_int_array)
     return path
