@@ -2,9 +2,8 @@ from netCDF4 import Dataset
 import numpy as np
 
 
-def initialize():
+def load_dataset(dataset_path):  # Must be run before any other data methods
     global data, nc_coords
-    dataset_path = 'ice_data/RDEFT4_20200229.nc'
 
     nc_ds = Dataset(dataset_path)
     nc_var = nc_ds['sea_ice_thickness']

@@ -1,7 +1,7 @@
 import utils
 import data
-from node import Node
 import node as nd
+from node import Node
 
 
 def find_path(start, end):
