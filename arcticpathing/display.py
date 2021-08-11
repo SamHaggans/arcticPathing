@@ -17,7 +17,7 @@ def get_path_plot(path):
     fig = plt.figure(figsize=(6.8, 10), dpi=500)
     # Set axes to fill the entire plot to size correctly
     ax = plt.Axes(fig, [0., 0., 1., 1.])
-    # Turn off axes and add to the fiture
+    # Turn off axes and add to the figure
     ax.set_axis_off()
     fig.add_axes(ax)
 
