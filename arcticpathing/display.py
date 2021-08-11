@@ -14,9 +14,13 @@ def get_path_plot(path):
     ice_data[land_mask == 1] = -3
     ice_data[ice_data == -9999] = -6
     ice_data = np.flip(ice_data.copy(), axis=0)
-    fig, ax = plt.subplots()
-    plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
-    ax.axis('off')
+    fig = plt.figure(figsize=(6.8, 10), dpi=500)
+    # Set axes to fill the entire plot to size correctly
+    ax = plt.Axes(fig, [0., 0., 1., 1.])
+    # Turn off axes and add to the fiture
+    ax.set_axis_off()
+    fig.add_axes(ax)
+
     plt.xlim(0, 304)
     plt.ylim(0, 448)
     plt.imshow(ice_data)
