@@ -1,8 +1,7 @@
 import os
 import io
-import json
 
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request, Response, jsonify
 
 from arcticpathing import main, display, pathing
 
@@ -54,12 +53,8 @@ def create_app(test_config=None):
         lat2 = float(request.args.get('lat_end'))
         lon2 = float(request.args.get('lon_end'))
         path = main.get_path(lat1, lon1, lat2, lon2)
-        # unclean way of fixing unserializable errors
-        # TODO: make clearer
-        path['path'] = pathing.parse_string(str(path['path']), True)
-        path['path_coords'] = pathing.parse_string(str(path['path_coords']))
         if path:
-            return json.dumps(path)
+            return jsonify(path)
         else:
             return "No path found"
 

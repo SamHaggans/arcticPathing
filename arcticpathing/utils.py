@@ -26,5 +26,5 @@ def nearest_coord_to_lat_lon(requested_lat, requested_lon):
     distances = vectorized_distance(coords['lat'], coords['lon'], requested_lat, requested_lon)
 
     min_distance = np.min(distances)
-
-    return np.argwhere(distances == min_distance)
+    # convert numpy int64 to int
+    return [[int(coord[0]), int(coord[1])] for coord in np.argwhere(distances == min_distance)]
