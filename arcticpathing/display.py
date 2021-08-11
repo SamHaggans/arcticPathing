@@ -2,12 +2,12 @@ from itertools import product
 from matplotlib import pyplot as plt
 import numpy as np
 
-from arcticpathing import data
+from arcticpathing import data, constants
 
 
 def get_path_plot(path):
     ice_data = data.get_data()
-    land_mask = np.fromfile('ice_data/gsfc_25n.msk', dtype=np.byte).reshape((448, 304))
+    land_mask = np.fromfile(constants.LAND_MASK_PATH, dtype=np.byte).reshape((448, 304))
     for col, row in product(range(0, 304), range(0, 448)):
         if [row, col] in path:
             ice_data[row][col] = 6

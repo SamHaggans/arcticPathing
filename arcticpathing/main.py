@@ -1,4 +1,4 @@
-from arcticpathing import utils, data, pathing
+from arcticpathing import utils, data, pathing, constants
 
 
 def get_input_coords(lat1, lon1, lat2, lon2):
@@ -14,7 +14,7 @@ def get_input_coords(lat1, lon1, lat2, lon2):
 
 
 def get_path(lat1, lon1, lat2, lon2):
-    data.load_dataset('ice_data/RDEFT4_20200229.nc')
+    data.load_dataset(constants.DATASET_PATH)
 
     start, end, start_coords, end_coords = get_input_coords(lat1, lon1, lat2, lon2)
     path_info = pathing.find_path(start, end)
