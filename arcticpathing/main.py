@@ -1,7 +1,7 @@
 from arcticpathing import utils, data, pathing, constants
 
 
-def get_input_coords(lat1, lon1, lat2, lon2):
+def get_input_coords(lat1: float, lon1: float, lat2: float, lon2: float):
     coords = data.get_coords()
 
     start = utils.nearest_coord_to_lat_lon(lat1, lon1)[0]
@@ -13,7 +13,7 @@ def get_input_coords(lat1, lon1, lat2, lon2):
     return start, end, start_coords, end_coords
 
 
-def get_path(lat1, lon1, lat2, lon2):
+def get_path(lat1: float, lon1: float, lat2: float, lon2: float):
     data.load_dataset(constants.DATASET_PATH)
 
     start, end, start_coords, end_coords = get_input_coords(lat1, lon1, lat2, lon2)

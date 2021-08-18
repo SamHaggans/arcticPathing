@@ -1,11 +1,11 @@
 from itertools import product
-from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt  # type: ignore
 import numpy as np
 
 from arcticpathing import data, constants
 
 
-def get_path_plot(path):
+def get_path_plot(path: list):
     ice_data = data.get_data()
     land_mask = np.fromfile(constants.LAND_MASK_PATH, dtype=np.byte).reshape((448, 304))
     for col, row in product(range(0, 304), range(0, 448)):

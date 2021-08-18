@@ -3,19 +3,19 @@ from arcticpathing import node as nd
 from arcticpathing.node import Node
 
 
-def find_path(start, end):
+def find_path(start: list, end: list):
     start_thick = data.get_thickness(start)
     init_distance = utils.distance(start, end)
 
-    start = Node(start[0], start[1], None, start_thick, 0, init_distance)
+    start_node = Node(start[0], start[1], None, start_thick, 0, init_distance)
 
-    nodes = [start]
-    check_nodes = [start]
+    nodes = [start_node]
+    check_nodes = [start_node]
 
     while len(check_nodes) > 0:
         current = nd.get_best_node(check_nodes)
         if (utils.distance(current.get_coords(), end) == 0):
-            path_info = generate_path_info(current, start)
+            path_info = generate_path_info(current, start_node)
             path_info['path_difficulty'] = round(current.get_g(), constants.DATA_PRECISION)
             real_distance = init_distance * constants.GRID_SIZE
             path_info['straight_distance'] = round(real_distance, constants.DATA_PRECISION)
@@ -36,7 +36,7 @@ def find_path(start, end):
     return False
 
 
-def generate_path_info(node, start):
+def generate_path_info(node: Node, start: Node):
     path_distance = 0
     path = []
     path_coords = []
@@ -59,7 +59,7 @@ def generate_path_info(node, start):
     }
 
 
-def weight(node1, node2):
+def weight(node1: Node, node2: Node):
     c1 = node1.get_coords()
     c2 = node2.get_coords()
     t1 = data.get_thickness(c1)
@@ -67,7 +67,7 @@ def weight(node1, node2):
     return 2 ** (t1 + t2)
 
 
-def parse_string(path_string, use_int=False):
+def parse_string(path_string: str):
     path = []
     split_1d = path_string.split("], ")
     for coord in split_1d:
@@ -75,9 +75,6 @@ def parse_string(path_string, use_int=False):
         coord_array = coord.split(", ")
         coord_int_array = []
         for dim in coord_array:
-            if use_int:
-                coord_int_array.append(int(dim))
-            else:
-                coord_int_array.append(float(dim))
+            coord_int_array.append(int(dim))
         path.append(coord_int_array)
     return path

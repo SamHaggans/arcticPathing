@@ -1,8 +1,12 @@
-from netCDF4 import Dataset
+from pathlib import Path
+from netCDF4 import Dataset  # type: ignore
 import numpy as np
 
+data = []
+nc_coords = {}
 
-def load_dataset(dataset_path):  # Must be run before any other data methods
+
+def load_dataset(dataset_path: Path):  # Must be run before any other data methods
     global data, nc_coords
 
     nc_ds = Dataset(dataset_path)
@@ -26,7 +30,7 @@ def get_data():
     return data
 
 
-def get_thickness(location):
+def get_thickness(location: list):
     x = location[0]
     y = location[1]
     return data[x][y]
