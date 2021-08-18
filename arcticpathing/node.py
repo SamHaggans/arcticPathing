@@ -1,4 +1,4 @@
-from arcticpathing import data
+from arcticpathing import data, constants
 
 
 class Node:
@@ -20,6 +20,10 @@ class Node:
         lat_float = float(lat)
         lon_float = float(lon)
         return [lat_float, lon_float]
+
+    def get_rounded_lat_lon(self):
+        lat_lon = self.get_lat_lon()
+        return [round(coord, constants.DATA_PRECISION) for coord in lat_lon]
 
     def get_parent(self):
         return self.parent

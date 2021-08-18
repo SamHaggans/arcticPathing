@@ -2,7 +2,7 @@ import math
 
 import numpy as np
 
-from arcticpathing import data
+from arcticpathing import data, constants
 
 
 def distance(location1, location2):
@@ -30,5 +30,5 @@ def nearest_coord_to_lat_lon(requested_lat, requested_lon):
     return [[int(coord[0]), int(coord[1])] for coord in np.argwhere(distances == min_distance)]
 
 
-def float_is_equal(float1, float2, range=1 * 10 ** (-5)):
+def float_is_equal(float1, float2, range=1 * 10 ** (-1 * constants.DATA_PRECISION)):
     return abs(float1-float2) < range

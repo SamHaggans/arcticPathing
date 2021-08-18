@@ -1,4 +1,4 @@
-from arcticpathing import data, utils
+from arcticpathing import data, utils, constants
 from arcticpathing import node as nd
 from arcticpathing.node import Node
 
@@ -16,8 +16,9 @@ def find_path(start, end):
         current = nd.get_best_node(check_nodes)
         if (utils.distance(current.get_coords(), end) == 0):
             path_info = generate_path_info(current, start)
-            path_info['path_difficulty'] = current.get_g()
-            path_info['straight_distance'] = init_distance
+            path_info['path_difficulty'] = round(current.get_g(), constants.DATA_PRECISION)
+            real_distance = init_distance * constants.GRID_SIZE
+            path_info['straight_distance'] = round(real_distance, constants.DATA_PRECISION)
 
             return path_info
 
@@ -44,7 +45,7 @@ def generate_path_info(node, start):
 
     while True:
         path.append(current_node.get_coords())
-        path_coords.append(current_node.get_lat_lon())
+        path_coords.append(current_node.get_rounded_lat_lon())
         path_distance += utils.distance_between_nodes(current_node, current_node.get_parent())
         current_node = current_node.get_parent()
         if current_node is None or current_node.get_coords() == start:
@@ -54,7 +55,7 @@ def generate_path_info(node, start):
     return {
         'path': path[::-1],
         'path_coords': path_coords[::-1],
-        'path_distance': path_distance,
+        'path_distance': round(path_distance * constants.GRID_SIZE, constants.DATA_PRECISION),
     }
 
 

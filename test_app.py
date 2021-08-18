@@ -35,8 +35,8 @@ def test_getting_path(client):
     expect_path = [[209, 189], [209, 188], [209, 187], [210, 186], [210, 185], [211, 184], [212, 183], [212, 182]]
     assert request.get_json()['path'] == expect_path
     assert utils.float_is_equal(request.get_json()['path_difficulty'], 75.6238140960203)
-    assert utils.float_is_equal(request.get_json()['path_distance'], 9.65685424949238)
-    assert utils.float_is_equal(request.get_json()['straight_distance'], 8.94427190999916)
+    assert utils.float_is_equal(request.get_json()['path_distance'], 241.421)
+    assert utils.float_is_equal(request.get_json()['straight_distance'], 223.607)
 
 
 def test_getting_plot(client):
