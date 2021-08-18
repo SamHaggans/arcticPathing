@@ -13,29 +13,19 @@ def client():
 
 def test_root(client):
     request = client.get('/')
-    assert b"""<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Arctic Pathing</title>
-  </head>
-  <body>
-    <form method = "POST" action = "/submit" enctype = "multipart/form-data">
-     Starting Lat: <input type = "text" name = "lat_start"> <br>
-     Starting Lon: <input type = "text" name = "lon_start"> <br>
-     Ending Lat: <input type = "text" name = "lat_end"> <br>
-     Ending Lon: <input type = "text" name = "lon_end"> <br>
-     <input type = "submit" value = "Submit">
-    </form>
-  </body>
-</html>""" in request.data
+    assert b'<!DOCTYPE html>' in request.data
+    assert b'<title>Arctic Pathing</title>' in request.data
+    assert b'Starting Lat: <input type = "text" name = "lat_start">' in request.data
 
 
 def test_getting_path(client):
     request = client.get('/route?lat_start=80&lon_start=80&lat_end=82&lon_end=82')
+
     expect_path = [[209, 189], [209, 188],
                    [209, 187], [210, 186],
                    [210, 185], [211, 184],
                    [212, 183], [212, 182]]
+
     assert request.get_json()['path'] == expect_path
     assert utils.float_is_equal(request.get_json()['path_difficulty'], 75.6238140960203)
     assert utils.float_is_equal(request.get_json()['path_distance'], 241.421)
@@ -47,6 +37,7 @@ def test_getting_plot(client):
                     [209, 187], [210, 186],
                     [210, 185], [211, 184],
                     [212, 183], [212, 182]]
+
     request = client.get(f'/plot?path={path_request}')
     assert b"PNG" in request.data
 
