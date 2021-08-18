@@ -28,3 +28,7 @@ def nearest_coord_to_lat_lon(requested_lat, requested_lon):
     min_distance = np.min(distances)
     # convert numpy int64 to int
     return [[int(coord[0]), int(coord[1])] for coord in np.argwhere(distances == min_distance)]
+
+
+def float_is_equal(float1, float2, range=1 * 10 ** (-5)):
+    return abs(float1-float2) < range
