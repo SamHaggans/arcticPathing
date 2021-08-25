@@ -1,6 +1,7 @@
-from app import create_app
 import pytest
 from arcticpathing import utils
+
+from app import create_app
 
 
 @pytest.fixture
@@ -27,9 +28,12 @@ def test_getting_path(client):
                    [212, 183], [212, 182]]
 
     assert request.get_json()['path'] == expect_path
+    # Extract value from the pint tuples for distance and straight_distance
+    path_distance = request.get_json()['path_distance'][0]
+    straight_distance = request.get_json()['straight_distance'][0]
     assert utils.float_is_equal(request.get_json()['path_difficulty'], 75.6238140960203)
-    assert utils.float_is_equal(request.get_json()['path_distance'], 241.421)
-    assert utils.float_is_equal(request.get_json()['straight_distance'], 223.607)
+    assert utils.float_is_equal(path_distance, 241.421)
+    assert utils.float_is_equal(straight_distance, 223.607)
 
 
 def test_getting_plot(client):

@@ -78,3 +78,10 @@ def parse_string(path_string: str):
             coord_int_array.append(int(dim))
         path.append(coord_int_array)
     return path
+
+
+def serialize_path(path):
+    # Utilizes pint's built in to_tuple method to split into serializable value and unit
+    path['path_distance'] = path['path_distance'].to_tuple()
+    path['straight_distance'] = path['straight_distance'].to_tuple()
+    return path

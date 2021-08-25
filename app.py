@@ -42,6 +42,7 @@ def create_app(test_config=None):
         lon2 = float(request.args.get('lon_end'))
         path = main.get_path(lat1, lon1, lat2, lon2)
         if path:
+            path = pathing.serialize_path(path)
             return jsonify(path)
         else:
             return jsonify({'status': 500, 'error': "Path not found"}), 500
