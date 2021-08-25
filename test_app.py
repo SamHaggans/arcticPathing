@@ -36,6 +36,14 @@ def test_getting_path(client):
     assert utils.float_is_equal(straight_distance, 223.607)
 
 
+def test_no_path(client):
+    request = client.get('/route?lat_start=80&lon_start=320&lat_end=82&lon_end=320')
+    # Requests path originating inside greenland
+
+    assert request.get_json()['error'] == 'Path not found'
+    assert request.status == '500 INTERNAL SERVER ERROR'
+
+
 def test_getting_plot(client):
     path_request = [[209, 189], [209, 188],
                     [209, 187], [210, 186],

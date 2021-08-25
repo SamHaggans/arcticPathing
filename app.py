@@ -45,7 +45,7 @@ def create_app(test_config=None):
             path = pathing.serialize_path(path)
             return jsonify(path)
         else:
-            return jsonify({'status': 500, 'error': "Path not found"}), 500
+            return jsonify({'error': "Path not found"}), 500
 
     # route the plot image request to generate the plot image
     @app.route('/plot', methods=['GET'])
