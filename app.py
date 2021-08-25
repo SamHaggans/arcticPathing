@@ -26,7 +26,7 @@ def create_app(test_config=None):
             if path:
                 return render_template("path.html", path_info=path)
             else:
-                return "No path found"
+                return "500 Error: Path not found", 500
 
     # receive non-form inputs (starting/ending coords)
     @app.route('/route', methods=['GET'])
@@ -39,7 +39,7 @@ def create_app(test_config=None):
         if path:
             return jsonify(path)
         else:
-            return "No path found"
+            return jsonify({'status': 500, 'error': "Path not found"}), 500
 
     # route the plot image request to generate the plot image
     @app.route('/plot', methods=['GET'])
