@@ -16,17 +16,16 @@ def create_app(test_config=None):
     # receive form inputs (starting/ending coords)
     @app.route('/submit', methods=['POST'])
     def submit_form():
-        if request.method == 'POST':
-            information = request.form
-            lat1 = float(information['lat_start'])
-            lon1 = float(information['lon_start'])
-            lat2 = float(information['lat_end'])
-            lon2 = float(information['lon_end'])
-            path = main.get_path(lat1, lon1, lat2, lon2)
-            if path:
-                return render_template("path.html", path_info=path)
-            else:
-                return "500 Error: Path not found", 500
+        information = request.form
+        lat1 = float(information['lat_start'])
+        lon1 = float(information['lon_start'])
+        lat2 = float(information['lat_end'])
+        lon2 = float(information['lon_end'])
+        path = main.get_path(lat1, lon1, lat2, lon2)
+        if path:
+            return render_template("path.html", path_info=path)
+        else:
+            return "500 Error: Path not found", 500
 
     # receive non-form inputs (starting/ending coords)
     @app.route('/route', methods=['GET'])
