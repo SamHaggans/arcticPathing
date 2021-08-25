@@ -1,6 +1,12 @@
 import io
 
-from flask import Flask, render_template, request, Response, jsonify
+from flask import (
+    Flask,
+    render_template,
+    request,
+    Response,
+    jsonify
+)
 
 from arcticpathing import main, display, pathing
 

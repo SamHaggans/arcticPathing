@@ -1,4 +1,9 @@
-from arcticpathing import utils, data, pathing, constants
+from arcticpathing import (
+    utils,
+    data,
+    pathing,
+    constants
+)
 
 
 def get_input_coords(lat1: float, lon1: float, lat2: float, lon2: float):
