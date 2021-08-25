@@ -1,2 +1,5 @@
 ice_data/*
 __pycache__
+plots/*
+.mypy_cache
+.pytest_cache

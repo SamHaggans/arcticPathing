@@ -1,4 +1,4 @@
-import data
+from arcticpathing import data, constants
 
 
 class Node:
@@ -16,7 +16,14 @@ class Node:
     def get_lat_lon(self):
         lat = data.get_coords()['lat'][self.x][self.y]
         lon = data.get_coords()['lon'][self.x][self.y]
-        return [lat, lon]
+        # Convert numpy float32 to float
+        lat_float = float(lat)
+        lon_float = float(lon)
+        return [lat_float, lon_float]
+
+    def get_rounded_lat_lon(self):
+        lat_lon = self.get_lat_lon()
+        return [round(coord, constants.DATA_PRECISION) for coord in lat_lon]
 
     def get_parent(self):
         return self.parent
