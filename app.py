@@ -51,7 +51,7 @@ def create_app(test_config=None):
     @app.route('/plot', methods=['GET'])
     def plot_route():
         path_string = request.args.get('path')
-        path = pathing.parse_string(path_string)
+        path = pathing.parse_request_path_string(path_string)
         output = io.BytesIO()
         plot = display.get_path_plot(path)
         plot.savefig(output)

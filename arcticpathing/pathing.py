@@ -67,14 +67,19 @@ def weight(node1: Node, node2: Node):
     return 2 ** (t1 + t2)
 
 
-def parse_string(path_string: str):
+def parse_request_path_string(path_string: str):
+    ''' Parses an array sent as a request parameter '''
     path = []
+    # Split array into the subarrays of coordinates
     split_1d = path_string.split("], ")
     for coord in split_1d:
+        # Remove all of the opening and closing brackets
         coord = coord.replace("[", "").replace("]", "")
+        # Split the x and y values
         coord_array = coord.split(", ")
         coord_int_array = []
         for dim in coord_array:
+            # Add integers of the x and y coordinates to an array
             coord_int_array.append(int(dim))
         path.append(coord_int_array)
     return path
