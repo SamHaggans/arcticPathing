@@ -51,9 +51,27 @@ def create_app(test_config=None):
     @app.route('/plot', methods=['GET'])
     def plot_route():
         path_string = request.args.get('path')
-        path = pathing.parse_request_path_string(path_string)
+        path = _parse_request_path_string(path_string)
         output = io.BytesIO()
         plot = display.get_path_plot(path)
         plot.savefig(output)
         return Response(output.getvalue(), mimetype='image/png')
     return app
+
+
+def _parse_request_path_string(path_string: str):
+    ''' Parses an array sent as a request parameter '''
+    path = []
+    # Split array into the subarrays of coordinates
+    split_1d = path_string.split("], ")
+    for coord in split_1d:
+        # Remove all of the opening and closing brackets
+        coord = coord.replace("[", "").replace("]", "")
+        # Split the x and y values
+        coord_array = coord.split(", ")
+        coord_int_array = []
+        for dim in coord_array:
+            # Add integers of the x and y coordinates to an array
+            coord_int_array.append(int(dim))
+        path.append(coord_int_array)
+    return path
