@@ -3,3 +3,4 @@ __pycache__
 plots/*
 .mypy_cache
 .pytest_cache
+notebooks
