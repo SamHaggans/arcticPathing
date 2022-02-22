@@ -1,0 +1,26 @@
+th {
+    border: 1px solid black;
+    padding: 3px;
+}
+
+td { 
+    border: 1px solid black; 
+    padding: 3px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.content {
+    display:inline-block;
+    margin: 20px;
+}
+
+.left {
+    float:left;
+}
+
+img {
+    width: 600px;
+}

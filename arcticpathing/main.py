@@ -1,16 +1,12 @@
-#  from arcticpathing import utils, data, pathing, display
-import utils
-import data
-import pathing
-import display
+from arcticpathing import (
+    utils,
+    data,
+    pathing,
+    constants
+)
 
 
-def get_inputs():
-    lat1 = int(input("Enter starting lat: "))
-    lon1 = int(input("Enter starting lon: "))
-    lat2 = int(input("Enter ending lat: "))
-    lon2 = int(input("Enter ending lon: "))
-
+def get_input_coords(lat1: float, lon1: float, lat2: float, lon2: float):
     coords = data.get_coords()
 
     start = utils.nearest_coord_to_lat_lon(lat1, lon1)[0]
@@ -22,34 +18,9 @@ def get_inputs():
     return start, end, start_coords, end_coords
 
 
-def show_path_info(path_info):
-    path_coords = path_info['path']['path_coords']
-    path_length = path_info['path']['distance']
-    path_cost = path_info['difficulty']
-    net_distance = path_info['distance']
+def get_path(lat1: float, lon1: float, lat2: float, lon2: float):
+    data.load_dataset(constants.DATASET_PATH)
 
-    print("Path length: " + str(path_length))
-    print("Path cost: " + str(path_cost))
-    print("Straight line distance traveled: " + str(net_distance))
-    print(path_coords)
-
-
-def pathing_loop():
-    start, end, start_coords, end_coords = get_inputs()
-
-    print(f'Finding path between {start_coords} and {end_coords}')
-
+    start, end, start_coords, end_coords = get_input_coords(lat1, lon1, lat2, lon2)
     path_info = pathing.find_path(start, end)
-
-    show_path_info(path_info)
-
-    path = path_info['path']['path']
-
-    display.show_path_plot(path, 0, 500)
-
-
-if __name__ == '__main__':
-    data.load_dataset('ice_data/RDEFT4_20200229.nc')
-
-    while True:
-        pathing_loop()
+    return path_info
